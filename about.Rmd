@@ -2,4 +2,45 @@
 title: "About This Website"
 ---
 
-More about this website.
+This is an online portfolio of the course **ANLY 503 Data Visualizations**. The website consists of selected homework and a flexdashboard of the final project. 
+
+The final project visual analysis of the airplain crash data from as early as year 1908. It contains graphs of the following types:
+
+- Exploratory
+
+- Geographical
+
+- Graph/Network
+
+- Time Series
+
+- Text
+
+The data I used was from kaggle https://www.kaggle.com/cgurkan/airplane-crash-data-since-1908 The method I used to visualize the data was mostly `ggplot2`. 
+
+This dataset contains the following columns:
+
+- Date: Date of accident, in the format - January 01, 2001
+
+- Time: Local time, in 24 hr. format unless otherwise specified
+
+- Airline/Op: Airline or operator of the aircraft
+
+- Flight #: Flight number assigned by the aircraft operator
+
+- Route: Complete or partial route flown prior to the accident
+
+- AC Type: Aircraft type
+
+- Reg: ICAO registration of the aircraft
+
+- cn / ln: Construction or serial number / Line or fuselage number
+
+- Aboard: Total aboard (passengers / crew)
+
+- Fatalities: Total fatalities aboard (passengers / crew)
+
+- Ground: Total killed on the ground
+
+- Summary: Brief description of the accident and cause if known
+

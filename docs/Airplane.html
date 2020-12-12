@@ -835,8 +835,8 @@ html, body {
 
 <img class="mobile-figure" data-mobile-figure-id=fig1 src="Airplane_files/figure-html/unnamed-chunk-3-1.mb.png" />
 <img class="mobile-figure" data-mobile-figure-id=fig2 src="Airplane_files/figure-html/unnamed-chunk-4-1.mb.png" />
-<img class="mobile-figure" data-mobile-figure-id=fig3 src="Airplane_files/figure-html/unnamed-chunk-6-1.mb.png" />
-<img class="mobile-figure" data-mobile-figure-id=fig4 src="Airplane_files/figure-html/unnamed-chunk-8-1.mb.png" />
+<img class="mobile-figure" data-mobile-figure-id=fig3 src="Airplane_files/figure-html/unnamed-chunk-5-1.mb.png" />
+<img class="mobile-figure" data-mobile-figure-id=fig4 src="Airplane_files/figure-html/unnamed-chunk-7-1.mb.png" />
 <img class="mobile-figure" data-mobile-figure-id=fig5 src="Airplane_files/figure-html/unnamed-chunk-9-1.mb.png" />
 <script type="text/javascript">
 
@@ -2636,16 +2636,35 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<div id="eda-iaircrash-by-ac-types" class="section level3">
-<h3>EDA I:Aircrash by AC Types</h3>
+<div id="time-series-plot-by-year-barplot-of-crashes-by-month" class="section level3">
+<h3>Time Series Plot by Year &amp; Barplot of Crashes By Month</h3>
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
 <p><img src="Airplane_files/figure-html/unnamed-chunk-3-1.png" width="576" data-figure-id=fig1 /></p>
 <hr />
+<p>Overview</p>
+<ul>
+<li><p>Airplane is the fastest and most indispensable transportation tool for business people, travelers and scholars. It serves as a catalyst for the global communication since the invention. However, we also can’t deny the danger and risk come with the satisfying convenience.</p></li>
+<li><p>As data analysts, we shall justify the fear for the unknown with icy attention. I will analyze the distinguishing features of air crash accidents from 3 aspects: 1. Air crash statistics over the years, 2. Airplane types, 3. Air crash locations and 4. Crash summaries.</p></li>
+<li><p>With no further ado, let’s delve into the air crash data and look what happened over the past 101 years and see how it plays out.</p></li>
+<li><p>Let’s first take a look at the overall number of crashes.</p></li>
+<li><p>Highlight the months with average number of crash over 4</p></li>
+<li><p>From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.</p></li>
+<li><p>Airplane crashes has greatly dropped after the 70’s. Technology might have evolved overtime!</p></li>
+<li><p>Let’s first check what types of aircraft crashed the most.</p></li>
+</ul>
+</div>
+<div id="eda-iaircrash-by-ac-types" class="section level3">
+<h3>EDA I:Aircrash by AC Types</h3>
+<div class="knitr-options" data-fig-width="576" data-fig-height="460">
+
+</div>
+<p><img src="Airplane_files/figure-html/unnamed-chunk-4-1.png" width="576" data-figure-id=fig2 /></p>
+<hr />
 <ul>
 <li><p>We now know the highest number of crashes by types, but does that mean they are the unsafest? Not necessarily.</p></li>
-<li><p>Next, we will analyze the fatality rate by type</p></li>
+<li><p>Next, we will analyze the total fatality rate by type.</p></li>
 </ul>
 </div>
 <div id="eda-ii-fatalities-by-type" class="section level3">
@@ -2653,11 +2672,12 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<p><img src="Airplane_files/figure-html/unnamed-chunk-4-1.png" width="576" data-figure-id=fig2 /></p>
+<p><img src="Airplane_files/figure-html/unnamed-chunk-5-1.png" width="576" data-figure-id=fig3 /></p>
 <hr />
 <ul>
 <li><p>Surprisingly, Boeing B-747 237B has the highest death rate of 1, but it is not even on the previous plot. That’s because it does not have as many number of missions as the AC types that appeared on the previous graph which had relatively small average boarding size and high number of missions.</p></li>
 <li><p>Boeing 747, Boeing 747 121 and Boeing 747 122 have relatively large average boarding size but extremely low death rate.</p></li>
+<li><p>Maybe you are afraid of taking flights in general no matter what, but at least now you get an idea of which types of aircraft to look out for next time before you get on board. Let us now take a look at where these aircraft are most likely to crash.</p></li>
 </ul>
 </div>
 <div id="geographical-plot-of-airplane-crash-locations" class="section level3">
@@ -2668,10 +2688,10 @@ window.FlexDashboardComponents.push({
 <div class="knitr-options" data-fig-width="576" data-fig-height="460">
 
 </div>
-<p><img src="Airplane_files/figure-html/unnamed-chunk-6-1.png" width="576" data-figure-id=fig3 /></p>
+<p><img src="Airplane_files/figure-html/unnamed-chunk-7-1.png" width="576" data-figure-id=fig4 /></p>
 <hr />
 <ul>
-<li>Apparently most airplanes crashed in Russia and the United States</li>
+<li>Apparently most airplanes crashed in Russia and the United States. But does this suggest anything bad about the air traffic control in these countries? We can’t say for sure. They are probably the pass station, or the countries have too many flights each year and since this data set does not include the total flights, we can’t compare the crash rate. Yet, what we can do is to find the departure locations and destinations of the airplanes that crashed and see what’s more to find out!</li>
 </ul>
 </div>
 <div id="network-graph" class="section level3">
@@ -2680,20 +2700,13 @@ window.FlexDashboardComponents.push({
 
 </div>
 <h1>Network of Dept-Dest</h1>
-<div id="htmlwidget-aaacfd3fc58d05455227" style="width:576px;height:460.8px;" class="forceNetwork html-widget"></div>
-<script type="application/json" data-for="htmlwidget-aaacfd3fc58d05455227">{"x":{"links":{"source":[109,104,6,19,96,96,130,11,17,33,33,62,73,85,96,105,105,105,106,107,19,19,19,19,19,20,20,22,22,25,25,25,26,40,43,43,43,50,62,62,62,62,62,62,62,62,63,63,69,69,74,74,78,78,84,84,84,85,85,85,85,85,86,86,110,119,119,121,8,8,8,8,8,8,8,8,8,8,8,8,8,49,49,49,49,49,49,49,49,49,49,49,49,49,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,112,112,112,112,112,112,112,112,112,112,127,127,127,127,127,127,127,127,127,127,127,127],"target":[104,109,96,12,38,62,75,43,80,85,110,96,72,63,85,8,26,85,96,85,23,27,31,102,130,63,86,60,62,61,76,108,105,17,11,39,49,48,4,15,17,22,26,41,46,99,85,90,9,82,18,19,47,81,20,33,74,30,33,36,74,107,63,74,33,43,63,93,24,26,58,66,79,83,87,88,103,105,115,123,129,3,5,6,10,57,67,70,71,94,95,113,120,135,0,1,2,7,13,16,21,32,34,37,43,51,52,54,55,56,59,64,65,68,89,91,92,98,100,101,114,116,117,118,125,126,131,132,134,14,29,35,42,44,45,63,69,107,119,28,43,53,77,97,111,122,124,125,128,133,136],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":[":\tKharkov",":\tKrasnoyarsk","Adler","aerial survelliance","Alexandria","Ambon","Amsterdam","Anadyr","Athens","Bacolod","Bandung","Bangkok","Barranquilla","Batumi","Beijing","Belfast","Belgrade","Berlin","Bimini","Bogota","Boston","Brazzaville","Brussels","Bucaramanga","Bucharest","Buenos Aires","Cairo","Cali","Campbell River","Canton","Caracas","Cartagena","Chernihiv","Chicago","Chita","Chungking","Cleveland","Conakry","Croydon","Da Nang","Frankfurt","Glasgow","Hankow","Hong Kong","Hong Konk","Hongqiao","Innsbruck","Irkutsk","Islamabad","Jakarta","Karachi","Karkov","Kastan","Kelowna","Khabarovsk","Kiev","Krosnovodsk","Kuala Lumpur","Larisa","Leningrad","Léopoldville","Lima","London","Los Angeles","Lviv","Lvov","Madrid","Maduin","Makhachkala, Dagestan","Manila","Medan","Menado via Surabaya","Merida","Mexico City","Miami","Mitu","Montevideo","Montreal","Moscow","Mount Athos","Munich","Murmansk","Naga","Naples","New York","New York City","Newark","Nice","Nicosia","Norilsk","Oakland","Odessa","Orsk","Orumiyeh","Palembang","Pangkal Pinang","Paris","Penticton","Perm","Perpignan","Petrozavodsk","Praha","Quito","Rhodes","Rio de Janeiro","Rome","Saigon","San Francisco","Santiago","Sao Paulo","Seattle","Sechelt","Shanghai","Singapore","Sochi","Sofia","St. Petersburgh","Svalbard","Sverdlovsk","Taipei","Tanjung Pandan","Tehran","Terrace","Thessaloniki","Toba Inlet","Tokyo","Turin, Italy","Vancouver","Victoria","Vienna","Villavicencio","Vnukovo","Volograd","Whitehorse","Yerevan","Yogyakarta","Zeballos"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":7,"fontFamily":"serif","clickTextSize":17.5,"linkDistance":50,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="time-series-plot-by-year-barplot-of-crashes-by-month" class="section level3">
-<h3>Time Series Plot by Year &amp; Barplot of Crashes By Month</h3>
-<div class="knitr-options" data-fig-width="576" data-fig-height="460">
-
-</div>
-<p><img src="Airplane_files/figure-html/unnamed-chunk-8-1.png" width="576" data-figure-id=fig4 /></p>
+<div id="htmlwidget-7a1494881ca69148df10" style="width:576px;height:460.8px;" class="forceNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7a1494881ca69148df10">{"x":{"links":{"source":[109,104,6,19,96,96,130,11,17,33,33,62,73,85,96,105,105,105,106,107,19,19,19,19,19,20,20,22,22,25,25,25,26,40,43,43,43,50,62,62,62,62,62,62,62,62,63,63,69,69,74,74,78,78,84,84,84,85,85,85,85,85,86,86,110,119,119,121,8,8,8,8,8,8,8,8,8,8,8,8,8,49,49,49,49,49,49,49,49,49,49,49,49,49,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,112,112,112,112,112,112,112,112,112,112,127,127,127,127,127,127,127,127,127,127,127,127],"target":[104,109,96,12,38,62,75,43,80,85,110,96,72,63,85,8,26,85,96,85,23,27,31,102,130,63,86,60,62,61,76,108,105,17,11,39,49,48,4,15,17,22,26,41,46,99,85,90,9,82,18,19,47,81,20,33,74,30,33,36,74,107,63,74,33,43,63,93,24,26,58,66,79,83,87,88,103,105,115,123,129,3,5,6,10,57,67,70,71,94,95,113,120,135,0,1,2,7,13,16,21,32,34,37,43,51,52,54,55,56,59,64,65,68,89,91,92,98,100,101,114,116,117,118,125,126,131,132,134,14,29,35,42,44,45,63,69,107,119,28,43,53,77,97,111,122,124,125,128,133,136],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"colour":["#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666","#666"]},"nodes":{"name":[":\tKharkov",":\tKrasnoyarsk","Adler","aerial survelliance","Alexandria","Ambon","Amsterdam","Anadyr","Athens","Bacolod","Bandung","Bangkok","Barranquilla","Batumi","Beijing","Belfast","Belgrade","Berlin","Bimini","Bogota","Boston","Brazzaville","Brussels","Bucaramanga","Bucharest","Buenos Aires","Cairo","Cali","Campbell River","Canton","Caracas","Cartagena","Chernihiv","Chicago","Chita","Chungking","Cleveland","Conakry","Croydon","Da Nang","Frankfurt","Glasgow","Hankow","Hong Kong","Hong Konk","Hongqiao","Innsbruck","Irkutsk","Islamabad","Jakarta","Karachi","Karkov","Kastan","Kelowna","Khabarovsk","Kiev","Krosnovodsk","Kuala Lumpur","Larisa","Leningrad","Léopoldville","Lima","London","Los Angeles","Lviv","Lvov","Madrid","Maduin","Makhachkala, Dagestan","Manila","Medan","Menado via Surabaya","Merida","Mexico City","Miami","Mitu","Montevideo","Montreal","Moscow","Mount Athos","Munich","Murmansk","Naga","Naples","New York","New York City","Newark","Nice","Nicosia","Norilsk","Oakland","Odessa","Orsk","Orumiyeh","Palembang","Pangkal Pinang","Paris","Penticton","Perm","Perpignan","Petrozavodsk","Praha","Quito","Rhodes","Rio de Janeiro","Rome","Saigon","San Francisco","Santiago","Sao Paulo","Seattle","Sechelt","Shanghai","Singapore","Sochi","Sofia","St. Petersburgh","Svalbard","Sverdlovsk","Taipei","Tanjung Pandan","Tehran","Terrace","Thessaloniki","Toba Inlet","Tokyo","Turin, Italy","Vancouver","Victoria","Vienna","Villavicencio","Vnukovo","Volograd","Whitehorse","Yerevan","Yogyakarta","Zeballos"],"group":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"nodesize":[8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8]},"options":{"NodeID":"name","Group":"group","colourScale":"d3.scaleOrdinal(['#3182bd'])","fontSize":7,"fontFamily":"serif","clickTextSize":17.5,"linkDistance":50,"linkWidth":"'1.5px'.toString()","charge":-30,"opacity":0.6,"zoom":false,"legend":false,"arrows":false,"nodesize":true,"radiusCalculation":"d.nodesize","bounded":false,"opacityNoHover":1,"clickAction":null}},"evals":[],"jsHooks":[]}</script>
 <hr />
 <ul>
-<li><p>Highlight the months with average number of crash over 4</p></li>
-<li><p>From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.</p></li>
-<li><p>Airplane crashes has greatly dropped after the 70’s</p></li>
+<li><p>The top 10% of most frequent departure-destination pairs contains a few Asian and European cities too.</p></li>
+<li><p>Now we know the unsafest airplane types, crash location, departure location and destination, but there are many other factors that contribute to the accidents.</p></li>
+<li><p>So, our last step is to find if there are other significant reasons for air crash, such as weather, operations, or constructions.</p></li>
 </ul>
 </div>
 <div id="text-analysis-of-frequent-reasons-for-crashes-using-wordcloud" class="section level3">
@@ -2704,8 +2717,14 @@ window.FlexDashboardComponents.push({
 <p><img src="Airplane_files/figure-html/unnamed-chunk-9-1.png" width="576" data-figure-id=fig5 /></p>
 <hr />
 <ul>
-<li><p>From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense</p></li>
+<li><p>From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense.</p></li>
 <li><p>It follows that misoperations performed by human and severe weather are the most possible reasons for airplane crashes. Furthermore, takeoff and landing are the riskiest part of the whole journey.</p></li>
+</ul>
+<p>Summary</p>
+<ul>
+<li><p>Now we can conclude that the number of airplane crashes dropped greatly after 70s. The most frequent reasons for the crashes are misoperations, weather, and takeoff/landing (when people forget to buckle up) is the most dangerous part during a flight.</p></li>
+<li><p>Boeing 747, Boeing 747 121 and Boeing 747 122 are the top safest passenger aircraft type. It is left to check the service time of each aircraft type and see if the oldest or the newest is the safest. Is technology really the newer the better? Or it needs to be examine by time?</p></li>
+<li><p>My future plan is to analyze the severity of the air crash by visualizing the ground fatality, passenger fatality, and check the ratio of number of crew to number of passenger on board and see if there is a correlation between the airline service and fatality.</p></li>
 </ul>
 </div>
 
@@ -2804,6 +2823,51 @@ ac$Location = str_trim(ac$Location, side = "both")
 ac$Location = sapply(ac$Location, as.factor)
 ```
 
+### Time Series Plot by Year & Barplot of Crashes By Month 
+
+```{r}
+# plot average crashes by month
+months = as.data.frame(table(ac$Month))
+p1 = ggplot(months, aes(x = Var1 , Freq/(2009-1908))) + 
+      geom_bar(stat = "identity", fill = "brown", width = 0.3) + 
+      gghighlight::gghighlight(Freq/(2009-1908) > 4,label_key = Var1) +
+      xlab("Month") + ylab("Crashes") +
+      ggtitle("Average Number of Crashes per Month Over the Years")
+
+
+# plot time series by year
+years = as.data.frame(table(ac$Year))
+p2 = ggplot(years, aes(y = Freq, x = Var1, group = 1))  + 
+      geom_line(size = 1, linetype = 1, color = "Navy") + 
+      geom_point(size = 3, shape = 20)+ 
+      geom_smooth() +
+      xlab("Year") + ylab("Crashes") + 
+      scale_x_discrete(breaks = seq(from = 1908, to = 2009, by = 10)) + 
+      ggtitle("Total Number of Crashes per Year")
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+***
+
+Overview
+
+- Airplane is the fastest and most indispensable transportation tool for business people, travelers and scholars. It serves as a catalyst for the global communication since the invention. However, we also can't deny the danger and risk come with the satisfying convenience. 
+
+- As data analysts, we shall justify the fear for the unknown with icy attention. I will analyze the distinguishing features of air crash accidents from 3 aspects: 1. Air crash statistics over the years, 2. Airplane types, 3. Air crash locations and 4. Crash summaries. 
+
+- With no further ado, let's delve into the air crash data and look what happened over the past 101 years and see how it plays out. 
+
+- Let's first take a look at the overall number of crashes.
+
+- Highlight the months with average number of crash over 4
+
+- From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.
+
+- Airplane crashes has greatly dropped after the 70's. Technology might have evolved overtime!
+
+- Let's first check what types of aircraft crashed the most.
+
 ### EDA I:Aircrash by AC Types
 
 ```{r}
@@ -2826,7 +2890,7 @@ Type
 
 - We now know the highest number of crashes by types, but does that mean they are the unsafest? Not necessarily. 
 
-- Next, we will analyze the fatality rate by type 
+- Next, we will analyze the total fatality rate by type. 
 
 ### EDA II: Fatalities by Type
 
@@ -2834,7 +2898,7 @@ Type
 total_death_rate_by_type %>%
     ggplot(aes(reorder(AC.Type, service_begin), total_death_rate, size=avg_boarding, alpha = total_death_rate)) +
     geom_point() +
-    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) +
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5,size = 5)) +
     labs(x='AC Type', y = "Total Death Rate", size='Aboard Size') +
     ggtitle("Total Death Rate By Each AC Type")
 ```
@@ -2844,6 +2908,8 @@ total_death_rate_by_type %>%
 - Surprisingly, Boeing B-747 237B has the highest death rate of 1, but it is not even on the previous plot. That's because it does not have as many number of missions as the AC types that appeared on the previous graph which had relatively small average boarding size and high number of missions. 
 
 - Boeing 747, Boeing 747 121 and Boeing 747 122 have relatively large average boarding size but extremely low death rate. 
+
+- Maybe you are afraid of taking flights in general no matter what, but at least now you get an idea of which types of aircraft to look out for next time before you get on board. Let us now take a look at where these aircraft are most likely to crash. 
 
 
 ### Geographical plot of Airplane Crash Locations
@@ -2944,7 +3010,7 @@ ggplot(map_data, aes(x = long, y = lat, group = group, fill = m)) +
 
 ***
 
-- Apparently most airplanes crashed in Russia and the United States 
+- Apparently most airplanes crashed in Russia and the United States. But does this suggest anything bad about the air traffic control in these countries? We can't say for sure. They are probably the pass station, or the countries have too many flights each year and since this data set does not include the total flights, we can't compare the crash rate. Yet, what we can do is to find the departure locations and destinations of the airplanes that crashed and see what's more to find out!
 
 ### Network Graph
 
@@ -2965,42 +3031,18 @@ take_off_dest_cnt <- ac %>%
     arrange(desc(count)) %>%
     top_frac(0.1)
 
-ng = simpleNetwork(take_off_dest_cnt, Source = 1, Target = 2, height="50px", width="50px")
+ng = simpleNetwork(take_off_dest_cnt, Source = 1, Target = 2, height="100px", width="100px")
 ng = htmlwidgets::prependContent(ng, htmltools::tags$h1("Network of Dept-Dest"))
 ng
 ```
 
-### Time Series Plot by Year & Barplot of Crashes By Month 
-
-```{r}
-# plot average crashes by month
-months = as.data.frame(table(ac$Month))
-p1 = ggplot(months, aes(x = Var1 , Freq/(2009-1908))) + 
-      geom_bar(stat = "identity", fill = "brown", width = 0.3) + 
-      gghighlight::gghighlight(Freq/(2009-1908) > 4,label_key = Var1) +
-      xlab("Month") + ylab("Crashes") +
-      ggtitle("Average Number of Crashes per Month Over the Years")
-
-
-# plot time series by year
-years = as.data.frame(table(ac$Year))
-p2 = ggplot(years, aes(y = Freq, x = Var1, group = 1))  + 
-      geom_line(size = 1, linetype = 1, color = "Navy") + 
-      geom_point(size = 3, shape = 20)+ 
-      geom_smooth() +
-      xlab("Year") + ylab("Crashes") + 
-      scale_x_discrete(breaks = seq(from = 1908, to = 2009, by = 10)) + 
-      ggtitle("Total Number of Crashes per Year")
-
-grid.arrange(p1, p2, nrow = 2)
-```
-
 ***
-- Highlight the months with average number of crash over 4
 
-- From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.
+- The top 10% of most frequent departure-destination pairs contains a few Asian and European cities too. 
 
-- Airplane crashes has greatly dropped after the 70's
+- Now we know the unsafest airplane types, crash location, departure location and destination, but there are many other factors that contribute to the accidents. 
+
+- So, our last step is to find if there are other significant reasons for air crash, such as weather, operations, or constructions. 
 
 
 ### Text Analysis of Frequent Reasons for Crashes Using WordCloud
@@ -3033,9 +3075,19 @@ mtext("WordCloud for Most Frequent Words in Crash Summary",
 
 ***
 
-- From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense
+- From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense.
 
 - It follows that misoperations performed by human and severe weather are the most possible reasons for airplane crashes. Furthermore, takeoff and landing are the riskiest part of the whole journey. 
+
+Summary 
+
+- Now we can conclude that the number of airplane crashes dropped greatly after 70s. The most frequent reasons for the crashes are misoperations, weather, and takeoff/landing (when people forget to buckle up) is the most dangerous part during a flight. 
+
+- Boeing 747, Boeing 747 121 and Boeing 747 122 are the top safest passenger aircraft type. It is left to check the service time of each aircraft type and see if the oldest or the newest is the safest. Is technology really the newer the better? Or it needs to be examine by time? 
+
+- My future plan is to analyze the severity of the air crash by visualizing the ground fatality, passenger fatality, and check the ratio of number of crew to number of passenger on board and see if there is a correlation between the airline service and fatality. 
+
+
 </code></pre>
 </div>
 <script type="text/javascript">

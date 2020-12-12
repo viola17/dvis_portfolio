@@ -74,6 +74,51 @@ ac$Location = str_trim(ac$Location, side = "both")
 ac$Location = sapply(ac$Location, as.factor)
 ```
 
+### Time Series Plot by Year & Barplot of Crashes By Month 
+
+```{r}
+# plot average crashes by month
+months = as.data.frame(table(ac$Month))
+p1 = ggplot(months, aes(x = Var1 , Freq/(2009-1908))) + 
+      geom_bar(stat = "identity", fill = "brown", width = 0.3) + 
+      gghighlight::gghighlight(Freq/(2009-1908) > 4,label_key = Var1) +
+      xlab("Month") + ylab("Crashes") +
+      ggtitle("Average Number of Crashes per Month Over the Years")
+
+
+# plot time series by year
+years = as.data.frame(table(ac$Year))
+p2 = ggplot(years, aes(y = Freq, x = Var1, group = 1))  + 
+      geom_line(size = 1, linetype = 1, color = "Navy") + 
+      geom_point(size = 3, shape = 20)+ 
+      geom_smooth() +
+      xlab("Year") + ylab("Crashes") + 
+      scale_x_discrete(breaks = seq(from = 1908, to = 2009, by = 10)) + 
+      ggtitle("Total Number of Crashes per Year")
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+***
+
+Overview
+
+- Airplane is the fastest and most indispensable transportation tool for business people, travelers and scholars. It serves as a catalyst for the global communication since the invention. However, we also can't deny the danger and risk come with the satisfying convenience. 
+
+- As data analysts, we shall justify the fear for the unknown with icy attention. I will analyze the distinguishing features of air crash accidents from 3 aspects: 1. Air crash statistics over the years, 2. Airplane types, 3. Air crash locations and 4. Crash summaries. 
+
+- With no further ado, let's delve into the air crash data and look what happened over the past 101 years and see how it plays out. 
+
+- Let's first take a look at the overall number of crashes.
+
+- Highlight the months with average number of crash over 4
+
+- From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.
+
+- Airplane crashes has greatly dropped after the 70's. Technology might have evolved overtime!
+
+- Let's first check what types of aircraft crashed the most.
+
 ### EDA I:Aircrash by AC Types
 
 ```{r}
@@ -96,7 +141,7 @@ Type
 
 - We now know the highest number of crashes by types, but does that mean they are the unsafest? Not necessarily. 
 
-- Next, we will analyze the fatality rate by type 
+- Next, we will analyze the total fatality rate by type. 
 
 ### EDA II: Fatalities by Type
 
@@ -104,7 +149,7 @@ Type
 total_death_rate_by_type %>%
     ggplot(aes(reorder(AC.Type, service_begin), total_death_rate, size=avg_boarding, alpha = total_death_rate)) +
     geom_point() +
-    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) +
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5,size = 5)) +
     labs(x='AC Type', y = "Total Death Rate", size='Aboard Size') +
     ggtitle("Total Death Rate By Each AC Type")
 ```
@@ -114,6 +159,8 @@ total_death_rate_by_type %>%
 - Surprisingly, Boeing B-747 237B has the highest death rate of 1, but it is not even on the previous plot. That's because it does not have as many number of missions as the AC types that appeared on the previous graph which had relatively small average boarding size and high number of missions. 
 
 - Boeing 747, Boeing 747 121 and Boeing 747 122 have relatively large average boarding size but extremely low death rate. 
+
+- Maybe you are afraid of taking flights in general no matter what, but at least now you get an idea of which types of aircraft to look out for next time before you get on board. Let us now take a look at where these aircraft are most likely to crash. 
 
 
 ### Geographical plot of Airplane Crash Locations
@@ -214,7 +261,7 @@ ggplot(map_data, aes(x = long, y = lat, group = group, fill = m)) +
 
 ***
 
-- Apparently most airplanes crashed in Russia and the United States 
+- Apparently most airplanes crashed in Russia and the United States. But does this suggest anything bad about the air traffic control in these countries? We can't say for sure. They are probably the pass station, or the countries have too many flights each year and since this data set does not include the total flights, we can't compare the crash rate. Yet, what we can do is to find the departure locations and destinations of the airplanes that crashed and see what's more to find out!
 
 ### Network Graph
 
@@ -235,42 +282,18 @@ take_off_dest_cnt <- ac %>%
     arrange(desc(count)) %>%
     top_frac(0.1)
 
-ng = simpleNetwork(take_off_dest_cnt, Source = 1, Target = 2, height="50px", width="50px")
+ng = simpleNetwork(take_off_dest_cnt, Source = 1, Target = 2, height="100px", width="100px")
 ng = htmlwidgets::prependContent(ng, htmltools::tags$h1("Network of Dept-Dest"))
 ng
 ```
 
-### Time Series Plot by Year & Barplot of Crashes By Month 
-
-```{r}
-# plot average crashes by month
-months = as.data.frame(table(ac$Month))
-p1 = ggplot(months, aes(x = Var1 , Freq/(2009-1908))) + 
-      geom_bar(stat = "identity", fill = "brown", width = 0.3) + 
-      gghighlight::gghighlight(Freq/(2009-1908) > 4,label_key = Var1) +
-      xlab("Month") + ylab("Crashes") +
-      ggtitle("Average Number of Crashes per Month Over the Years")
-
-
-# plot time series by year
-years = as.data.frame(table(ac$Year))
-p2 = ggplot(years, aes(y = Freq, x = Var1, group = 1))  + 
-      geom_line(size = 1, linetype = 1, color = "Navy") + 
-      geom_point(size = 3, shape = 20)+ 
-      geom_smooth() +
-      xlab("Year") + ylab("Crashes") + 
-      scale_x_discrete(breaks = seq(from = 1908, to = 2009, by = 10)) + 
-      ggtitle("Total Number of Crashes per Year")
-
-grid.arrange(p1, p2, nrow = 2)
-```
-
 ***
-- Highlight the months with average number of crash over 4
 
-- From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.
+- The top 10% of most frequent departure-destination pairs contains a few Asian and European cities too. 
 
-- Airplane crashes has greatly dropped after the 70's
+- Now we know the unsafest airplane types, crash location, departure location and destination, but there are many other factors that contribute to the accidents. 
+
+- So, our last step is to find if there are other significant reasons for air crash, such as weather, operations, or constructions. 
 
 
 ### Text Analysis of Frequent Reasons for Crashes Using WordCloud
@@ -303,6 +326,16 @@ mtext("WordCloud for Most Frequent Words in Crash Summary",
 
 ***
 
-- From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense
+- From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense.
 
 - It follows that misoperations performed by human and severe weather are the most possible reasons for airplane crashes. Furthermore, takeoff and landing are the riskiest part of the whole journey. 
+
+Summary 
+
+- Now we can conclude that the number of airplane crashes dropped greatly after 70s. The most frequent reasons for the crashes are misoperations, weather, and takeoff/landing (when people forget to buckle up) is the most dangerous part during a flight. 
+
+- Boeing 747, Boeing 747 121 and Boeing 747 122 are the top safest passenger aircraft type. It is left to check the service time of each aircraft type and see if the oldest or the newest is the safest. Is technology really the newer the better? Or it needs to be examine by time? 
+
+- My future plan is to analyze the severity of the air crash by visualizing the ground fatality, passenger fatality, and check the ratio of number of crew to number of passenger on board and see if there is a correlation between the airline service and fatality. 
+
+
