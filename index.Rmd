@@ -6,8 +6,8 @@ output: html_document
 ---
 
 ---
-title: "My Website"
+title: "ANLY 503 Final Project"
 ---
 
-Hello, Website!
+This website contains several homework and the final project.
 
