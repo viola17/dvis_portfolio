@@ -1,0 +1,308 @@
+---
+title: "ANLY 503 Final Project - Jiamin Zhong"
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    social: menu
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+
+```{r}
+# Import libraries for future use 
+library(wordcloud)  
+library(gridExtra)  
+library(RColorBrewer)
+library(DT)        
+library(networkD3)
+library(readr)    
+library(stringr)
+library(tidyverse) 
+library(dplyr)      
+library(ggplot2)   
+library(readr)     
+library(lubridate)
+library(tm)     
+library(caret)      
+```
+
+```{r}
+# read in the data as dataframe
+ac = read.csv("data/airplanecrashes.csv", stringsAsFactors = F)
+ac = as_tibble(ac)
+
+# replace "NULL" with NA
+ac = ac %>% mutate(Fatalities = as.numeric(gsub('NULL',"", Fatalities))) %>%
+  mutate(Fatalities.Passangers = as.numeric(gsub('NULL',"", Fatalities.Passangers))) %>%
+  mutate(Fatalities.Crew = as.numeric(gsub('NULL',"", Fatalities.Crew))) %>%
+  mutate(Ground = as.numeric(gsub('NULL',"", Ground))) %>%
+  mutate(Aboard = as.numeric(gsub('NULL',"", Aboard))) %>%
+  mutate(Aboard.Passangers = as.numeric(gsub('NULL',"", Aboard.Passangers))) %>%
+  mutate(Aboard.Crew= as.numeric(gsub('NULL',"", Aboard.Crew)))
+
+ac = na.omit(ac)
+
+# Calculate death rate by each ac type
+total_death_rate_by_type = ac %>%
+    group_by(AC.Type) %>%
+    summarise(total_death_rate = sum(Fatalities)/sum(Aboard),
+              total_aboard = sum(Aboard),
+              total_flights = n(),
+              avg_boarding = floor(total_aboard/total_flights/10) * 10,  # is it big or small plane, round to 10
+              service_begin = min(Date),
+              service_end = max(Date),na.rm=TRUE) %>%
+    filter(total_aboard > 500, total_flights > 1) %>% # we filter flight that are more than 500 people aboard during this 100 years
+    arrange(total_aboard)
+
+# get overall death rate 
+death_rate = ac %>%
+    filter(AC.Type %in% total_death_rate_by_type$AC.Type) %>%
+    mutate(death_rate = Fatalities/Aboard)
+
+# separate date 
+ac = ac %>% separate(Date, into = c("Month","Day","Year"))
+
+ac$Location = sapply(ac$Location, as.character)
+# remove white space at beginning
+ac$Location = gsub(".*,", "", ac$Location)
+# convert string back to factors
+ac$Location = str_trim(ac$Location, side = "both")
+ac$Location = sapply(ac$Location, as.factor)
+```
+
+### EDA I:Aircrash by AC Types
+
+```{r}
+crash_type = ac %>% 
+  group_by(AC.Type) %>% 
+  summarise(Freq = n()) %>% arrange(desc(Freq))
+Type = ggplot(crash_type[1:15,], aes(x = reorder(factor(AC.Type), Freq), 
+                                      y = Freq, alpha = Freq)) + 
+            geom_bar(stat = "identity", fill = "brown4", width = 1) + 
+            geom_point(stat = "identity") + 
+            xlab("Aircraft Operators") + 
+            ylab("Number of Crashes") + 
+            ggtitle("Top 15 Number of Crashes by Type") + 
+  #geom_text(aes(label = Freq), hjust = 1.5, colour = "white", size = 3, fontface = "bold") +
+            coord_flip() 
+Type
+```
+
+***
+
+- We now know the highest number of crashes by types, but does that mean they are the unsafest? Not necessarily. 
+
+- Next, we will analyze the fatality rate by type 
+
+### EDA II: Fatalities by Type
+
+```{r, warning=FALSE}
+total_death_rate_by_type %>%
+    ggplot(aes(reorder(AC.Type, service_begin), total_death_rate, size=avg_boarding, alpha = total_death_rate)) +
+    geom_point() +
+    theme(axis.text.x=element_text(angle=90, hjust=1, vjust=0.5)) +
+    labs(x='AC Type', y = "Total Death Rate", size='Aboard Size') +
+    ggtitle("Total Death Rate By Each AC Type")
+```
+
+***
+
+- Surprisingly, Boeing B-747 237B has the highest death rate of 1, but it is not even on the previous plot. That's because it does not have as many number of missions as the AC types that appeared on the previous graph which had relatively small average boarding size and high number of missions. 
+
+- Boeing 747, Boeing 747 121 and Boeing 747 122 have relatively large average boarding size but extremely low death rate. 
+
+
+### Geographical plot of Airplane Crash Locations
+
+```{r}
+# Replace the States with State names
+states_list <- c('Alabama','Alaska','Alaksa','Arizona','Arkansas',"California",
+                 "Colorado", "Connecticut","Delaware","Florida","Georgia",
+                 "Hawaii","Idaho","Illinois", "Indiana","Iowa","Kansas",
+                 "Kentucky","Louisiana","Maine","Maryland", "Massachusetts",
+                 "Massachusett", "Michigan","Minnesota","Mississippi","Missouri",
+                 "Montana", "Nebraska","Nevada","New Hampshire","New Jersey",
+                 "New Mexico","New York", "North Carolina","North Dakota","Ohio",
+                 "Oklahoma", "Oklohoma", "Oregon","Pennsylvania", "Rhode Island",
+                 "South Carolina",
+                 "South Dakota",'Tennesee',"Tennessee","Texas","Utah", "Vermont",
+                 'Virginia',"Washington D.C.", "Washington, D.C.", "Washington", 
+                 "West Virginia","Wisconsin","Wyoming",
+                 "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+                 "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                 "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                 "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                 "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY")
+
+location <- ac %>%
+    select(Location) 
+
+for(state in states_list) {
+    location <- location %>%
+        mutate(Location = str_replace_all(Location, state, paste(state, ', USA', sep = ''))) %>%
+        mutate(Location = str_replace_all(Location, 'USA.*, ', '')) %>%
+        mutate(Location = str_replace(Location, 'West Virginia, USA,', '')) %>%
+        mutate(Location = str_replace(Location, 'Afghanstan', 'Afghanistan')) %>%
+        mutate(Location = str_replace(Location, 'Airzona|Arazona', 'Arizona')) %>%
+        mutate(Location = str_replace(Location, 'Alakska', 'Alaska')) %>%
+        mutate(Location = str_replace(Location, 'Cailifornia|Calilfornia', 'California')) %>%
+        mutate(Location = str_replace(Location, 'D.*Congo', 'DR Congo')) %>%
+        mutate(Location = str_replace(Location, 'Domincan Republic', 'Dominican Republic')) %>%
+        mutate(Location = str_replace(Location, 'Hati', 'Haiti')) %>%
+        mutate(Location = str_replace(Location, ' International Airport', '')) %>%
+        mutate(Location = str_replace(Location, 'Morrocco|Morroco', 'Morocco')) %>%
+        mutate(Location = str_replace(Location, 'Phillipines', 'Phillipines')) %>%
+        mutate(Location = str_replace(Location, 'Burma', 'Myanmar')) %>%
+        mutate(Location = str_replace(Location, '([Ss]outhern|[Nn]orthern|[Ww]estern|[Ee]astern) ', ''))}
+
+country_state <- location %>%
+    select(Location) %>%
+    filter(!str_detect(Location, '[Oo]cean|[Ss]ea|[Cc]hannel|Gulf of')) %>%
+    mutate(Location = str_replace(Location, '(Near|Off|Over) ', '')) %>%
+    mutate(Location = str_replace(Location, 'USA, Australia', 'Australia')) %>%
+    mutate(State_Province = str_replace(Location, '(.*, )?(.*), (.*)', '\\2')) %>%
+    mutate(Country = str_replace(Location, '.*,\\s*', '')) 
+
+loc <- country_state %>%
+    group_by(Location) %>%
+    summarize(n = n()) %>%
+    arrange(desc(n))
+
+# most frequent State/Province/City
+st <- country_state %>%
+    group_by(State_Province) %>%
+    summarize(n = n()) %>%
+    arrange(desc(n))
+
+# most frequent Country/Region
+cntry <- country_state %>%
+    group_by(Country) %>%
+    summarize(n = n()) %>%
+    arrange(desc(n))
+
+cntry <- cntry %>%
+    mutate(m = case_when(
+        n > 200  ~ "200 +",
+        n < 200 & n >= 100 ~ "199 - 100",
+        n < 100 & n >= 50 ~ "99 - 50",
+        n < 50 & n >= 10 ~ "49 - 10",
+        n < 10  ~ "< 10")) %>%
+    mutate(m = factor(m, levels = c("< 10", "49 - 10", "99 - 50", "199 - 100", "200 +")))
+world_map <- map_data("world")
+map_data <- cntry %>% 
+    full_join(world_map, by = c('Country' = 'region')) 
+```
+
+```{r}
+options(repr.plot.width = 20, repr.plot.height = 9)
+
+# map color palette
+#map_pal = c("#E0DFD5", "#E4B363", "#E97F02", '#EF6461', '#313638')
+map_pal = c("#f2f0f7","#cbc9e2","#9e9ac8","#756bb1","#54278f")
+
+ggplot(map_data, aes(x = long, y = lat, group = group, fill = m)) +
+    geom_polygon(colour = "white") + 
+    labs(title = 'Total Number of Crashed in Each Country', x = '', y = '', fill = '') +
+    scale_fill_manual(values = map_pal, na.value = 'whitesmoke') + 
+    theme(legend.position='right', legend.justification = "top") + 
+    guides(fill = guide_legend(reverse = TRUE))
+```
+
+***
+
+- Apparently most airplanes crashed in Russia and the United States 
+
+### Network Graph
+
+```{r}
+library(circlize)
+
+# create a df with top 1 percent of the most frequent departure location and destination
+take_off_dest_cnt <- ac %>%
+    select('Route') %>%
+    filter(Route!='') %>%
+    filter(str_detect(Route, ' ?- ?')) %>%
+    mutate(Take_Off = str_extract(Route, '[^-]* ?-?')) %>%
+    mutate(Take_Off = str_replace(Take_Off, ' -', ''))%>%
+    mutate(Destination = str_extract(Route, '- ?[^-]*$')) %>%
+    mutate(Destination = str_replace(Destination, '- ?', '')) %>% 
+    group_by(Take_Off, Destination) %>%
+    summarize(count = n()) %>%
+    arrange(desc(count)) %>%
+    top_frac(0.1)
+
+ng = simpleNetwork(take_off_dest_cnt, Source = 1, Target = 2, height="50px", width="50px")
+ng = htmlwidgets::prependContent(ng, htmltools::tags$h1("Network of Dept-Dest"))
+ng
+```
+
+### Time Series Plot by Year & Barplot of Crashes By Month 
+
+```{r}
+# plot average crashes by month
+months = as.data.frame(table(ac$Month))
+p1 = ggplot(months, aes(x = Var1 , Freq/(2009-1908))) + 
+      geom_bar(stat = "identity", fill = "brown", width = 0.3) + 
+      gghighlight::gghighlight(Freq/(2009-1908) > 4,label_key = Var1) +
+      xlab("Month") + ylab("Crashes") +
+      ggtitle("Average Number of Crashes per Month Over the Years")
+
+
+# plot time series by year
+years = as.data.frame(table(ac$Year))
+p2 = ggplot(years, aes(y = Freq, x = Var1, group = 1))  + 
+      geom_line(size = 1, linetype = 1, color = "Navy") + 
+      geom_point(size = 3, shape = 20)+ 
+      geom_smooth() +
+      xlab("Year") + ylab("Crashes") + 
+      scale_x_discrete(breaks = seq(from = 1908, to = 2009, by = 10)) + 
+      ggtitle("Total Number of Crashes per Year")
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+***
+- Highlight the months with average number of crash over 4
+
+- From the average monthly crashes plot, we conclude that winter and summer might be the most dangerous seasons to take flights, but generally speaking the probability of crashes in each month is close to each other.
+
+- Airplane crashes has greatly dropped after the 70's
+
+
+### Text Analysis of Frequent Reasons for Crashes Using WordCloud
+
+```{r}
+# vectorize corpus
+corpus = VCorpus(VectorSource(ac$Summary))
+# clean texts
+corpus = corpus %>%
+  tm_map(PlainTextDocument) %>%
+  #tm_map(stemDocument) %>%
+  tm_map(content_transformer(tolower)) %>% 
+  tm_map(removePunctuation) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(removeWords, stopwords("en")) %>%
+  tm_map(removeWords, c("caused","flight","crashed","plane","aircraft","approach"))
+
+# get the frequency of each word
+tdm = TermDocumentMatrix(corpus)
+wordcount = rowSums(as.matrix(tdm))
+freq = sort(wordcount,decreasing=TRUE)
+colors=brewer.pal(9, "BuPu")
+
+# plot by wordcloud
+wordcloud(corpus,scale = c(2,0.5), max.words = 150, 
+          min.freq = 25, random.order = F, colors=colors)
+mtext("WordCloud for Most Frequent Words in Crash Summary", 
+      side =3, cex = 0.8, line = 1)
+```
+
+***
+
+- From the wordcloud analysis, the most frequent words involved in the crash diagnosis summary are weather, landing, takeoff and pilots, which makes a lot of sense
+
+- It follows that misoperations performed by human and severe weather are the most possible reasons for airplane crashes. Furthermore, takeoff and landing are the riskiest part of the whole journey. 
